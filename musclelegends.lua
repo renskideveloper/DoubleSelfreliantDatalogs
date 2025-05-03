@@ -7,19 +7,7 @@ local Window = Rayfield:CreateWindow({
    Icon = 0,  
    LoadingTitle = "RNSHUB",
    LoadingSubtitle = "by Renski",
-   Theme = "Default",  
-
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,  
-
-   ConfigurationSaving = {
-      Enabled = false
-  },
-
-   Discord = {
-      Enabled = false
-  },
-
+   Theme = "Default", 
    KeySystem = false
 })
 Rayfield:Notify({
