@@ -96,4 +96,5 @@ grindTab:CreateButton({
               Content = "Resets Stats.",
               Duration = 5.5
           })
+      end
 })
