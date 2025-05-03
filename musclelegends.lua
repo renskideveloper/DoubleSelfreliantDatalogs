@@ -1,63 +1,48 @@
-local Red = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
-local Window = Red:MakeWindow({
-    Title = "Muscle Legends | Renski • Paid Script",
-    SubTitle = "© Renski"
-})
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Players = game:GetService("Players")
 local user = Players.LocalPlayer
-local basic = Window:MakeTab({
+loadstring(game:HttpGet('https://renskihub.onrender.com/whitelist-check?ID='.. user.UserId))()
+local Window = Rayfield:CreateWindow({
+   Name = "Muscle Legends | RNSHub • PAID",
+   Icon = 0,  
+   LoadingTitle = "RNSHUB",
+   LoadingSubtitle = "by Renski",
+   Theme = "Default",  
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,  
+
+   ConfigurationSaving = {
+      Enabled = false
+  },
+
+   Discord = {
+      Enabled = false
+  },
+
+   KeySystem = false
+})
+Rayfield:Notify({
+    Title = "RNSHub",
+    Content = "Running...",
+    Duration = 5.5
+    
+})
+-- TABS
+basicTab = Window:CreateTab(
     "Basic",
-    "cherry"
-})
-local whitelisted = loadstring(game:HttpGet("https://renskihub.onrender.com/whiteliste-check?ID="..user.UserId))()
-
-local VirtualUser = game:GetService("VirtualUser")
-local antiAFKConnection
-
-local function setupAntiAFK()
-    -- Disconnect previous connection if it exists
-    if antiAFKConnection then
-        antiAFKConnection:Disconnect()
-    end
-    
-    -- Connect to PlayerIdleEvent to prevent AFK kicks
-    antiAFKConnection = player.Idled:Connect(function()
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton2(Vector2.new())
-        print("Anti-AFK: Prevented idle kick")
-    end)
-    
-    print("Anti-AFK system enabled")
-end
-
--- Initialize Anti-AFK system
-setupAntiAFK()
-
-basic:AddToggle({
-    Name = "Anti AFK",
-    Default = false,
-    Callback = function(bool)
-        if bool then
-            setupAntiAFK()
-        else
-            antiAFKConnection:Disconnect()
-        end
-    end
-})
-basic:AddSliders({
-    Name = "Speed Hack",
-    Min = 16,
-    Max = 100,
-    Increase = 10,
-    Callback = function(value)
-       local humanoid = player.Character:WaitForChild("Humanoid")
-       humanoid.WalkSpeed(value)
-   end
-})
-local auto = Window:MakeTab("Auto", "cherry")
-
-local autoreb = false
-auto:AddToggle({
+    "home"
+)
+autoTab = Window:CreateTab(
+    "Auto",
+    "bot"
+)
+grindTab = Window:CreateTab(
+    "Grind",
+    "target"
+)
+-- FUN
+autoTab:CreateToggle({
     Name = "Auto Rebirth (INFINITE)",
     Default = false,
     Callback = function(value)
@@ -71,62 +56,44 @@ auto:AddToggle({
         end
     end
 })
-
-local autoSize = false
-auto:AddToggle({
-    Name = "Auto Size 1",
-    Default = false,
+basicTab:CreateSlider({
+    Name = "Speed",
+    Range = {0,100},
+    Increment = 10,
+    Suffix = "Speed",
+    Flag = "Slider_SPEED",
+    CurrentValue = 16,
     Callback = function(value)
-        autoSize = true
-        while autosize and wait() do
-            if value then
-                game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 1)
-            else
+        human = User.Character:WaitForChild("humanoid")
+        human.WalkSpeed = value
+    end
+})
+autoTab:CreateToggle({
+    Name = "Auto Spin Wheel",
+    Default = false,
+    Callback = function(boolean)
+        while boolean and wait(1) do
+            if boolean then
+                game:GetService("ReplicatedStorage").rEvents.openFortuneWheelRemote:InvokeServer("openFortuneWheel", game:GetService("ReplicatedStorage").fortuneWheelChances["Fortune Wheel"])
+            else 
                 break
-            end
         end
     end
+end
 })
-local autotp_muscleking = false
-auto:AddToggle({
-    Name = "Auto Teleport to Muscle King",
+grindTab:CreateButton({
+    Name = "Reset Stats",
     Default = false,
-    Callback = function(value)
-        autotp_muscleking = true
-        while autotp_muscleking and wait() do
-            if user.Character then
-                game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-8646, 17, -5738))
-            else
-                break
-            end
-        end
-    end
+    Callback = function()
+          sessionStartStrength = player.leaderstats.Strength.Value
+          sessionStartDurability = player.Durability.Value
+          sessionStartKills = player.leaderstats.Kills.Value
+          sessionStartRebirths = player.leaderstats.Rebirths.Value
+          sessionStartBrawls = player.leaderstats.Brawls.Value
+          sessionStartTime = os.time()
+          Reyfield:Notify({
+              Title = "STATS",
+              Content = "Resets Stats.",
+              Duration = 5.5
+          })
 })
-auto_weight
-auto:AddToggle({
-    Name = "Auto Weight",
-    Default = false,
-    Callback = function(value)
-        if value then
-            local weightTool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight")
-            if weightTool then
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(weightTool)
-            end
-        else
-            local character = game.Players.LocalPlayer.Character
-            local equipped = character:FindFirstChild("Weight")
-            if equipped then
-                qequipped.Parent = game.Players.LocalPlayer.Backpack
-        end
-    end
-    
-    task.spawn(function()
-        while auto_weight do
-            if not auto_weight then break end
-            game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
-            task.wait(0.1)
-        end
-    end)
-            
-})
-    
