@@ -34,7 +34,7 @@ app.get("/whitelist-check", (req, res) => {
     if (!id) return res.send({ status: false });
 
     if (!whitelisted.includes(id)) {
-        return res.send(`user:Kick("Can't use this script. Not Whitelisted.")`);
+        return res.send(`local user = game:GetService("Players").LocalPlayer\nuser:Kick("Can't use this script. Not Whitelisted.")`);
     }
 
     return res.send(`return true`);
