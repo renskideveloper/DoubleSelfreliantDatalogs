@@ -16,7 +16,7 @@ app.get("/whitelist-check", (req, res) => {
     if (!id) {
         res.send({ status: false });
     }
-    if ((!id) in whitelisted) {
+    if (!id in whitelisted) {
         return res.send(`user:Kick("Can't use this script. Not Whitelisted.")`);
     } else {
         return res.send(`return true`);
